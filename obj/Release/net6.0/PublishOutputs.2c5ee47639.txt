@@ -1,0 +1,7 @@
+D:\Project c sharp\TestMVC\TestMVC\obj\Release\net6.0\PubTmp\Out\TestMVC.exe
+D:\Project c sharp\TestMVC\TestMVC\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
+D:\Project c sharp\TestMVC\TestMVC\obj\Release\net6.0\PubTmp\Out\appsettings.json
+D:\Project c sharp\TestMVC\TestMVC\obj\Release\net6.0\PubTmp\Out\TestMVC.dll
+D:\Project c sharp\TestMVC\TestMVC\obj\Release\net6.0\PubTmp\Out\TestMVC.deps.json
+D:\Project c sharp\TestMVC\TestMVC\obj\Release\net6.0\PubTmp\Out\TestMVC.runtimeconfig.json
+D:\Project c sharp\TestMVC\TestMVC\obj\Release\net6.0\PubTmp\Out\TestMVC.pdb
