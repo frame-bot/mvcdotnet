@@ -1,0 +1,83 @@
+﻿@model TestMVC.Models.ProductDTO.ModelDetail;
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        console.log("detail product ready!");
+    });
+
+
+    function setCurrentImageValue(item) {
+        fetch(`/Product/setCurrentImageValue`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                image: item,
+            })
+        }).then(function (response) {
+            console.log('response', response);
+            if (response.ok) {
+                return response.json();
+            }
+            return Promise.reject(response);
+        }).then(data => {
+            console.log('Success:', data);
+        }).catch(function (error) {
+            console.warn('BLAH BLAH BLAH', error);
+        });
+    }
+
+</script>
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var currentImage = TempData["currentImage"];
+}
+
+<div class="row">
+    <div class="col-5">
+        <div class="row">
+            <div id="carouselExampleControlsNoTouching" class="carousel slide" data-bs-touch="false"
+                data-bs-interval="false">
+                <div class="carousel-inner">
+
+                    @foreach (var item in Model.products?.images ?? new List<string>())
+                    {
+                        <div class="carousel-item @((item == currentImage ) ? "active" : "")">
+                            <img src="@Html.Raw(item)" class="d-block w-100" alt="..."
+                                style="width: 100%;height: 250px;object-fit: scale-down;">
+                        </div>
+                    }
+
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControlsNoTouching"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:40px;">
+            <div class="d-flex overflow-auto">
+                @foreach (var item in Model.products?.images ?? new List<string>())
+                {
+                    <img src="@Html.Raw(item)" class="d-block" alt="..."
+                        style="width: 100%;height: 60px;object-fit: scale-down;margin: 0px 10px;cursor: pointer;"
+                        onclick="currentImage = item">
+                }
+            </div>
+
+        </div>
+    </div>
+    <div class="col-7 bg-info">
+        @currentImage
+    </div>
+</div>

@@ -1,0 +1,23 @@
+﻿@model TestMVC.Models.ProduceModel;
+
+@{
+    ViewData["Title"] = "Home Page";
+    var imgText = "";
+    if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        imgText = Model.ImagePath;
+    }
+    else
+    {
+        imgText = "Not found data";
+    }
+}
+<div class="text-center">
+  
+    <h1>@imgText</h1> 
+    <div>
+        <h2>@Model.Name</h2>
+        <p>ID: @Model.Id</p>
+        <img src="@Url.Content("~/Content/images/45841.jpg")" alt="IMAGES" width="30" height="30"/>
+
+</div>
