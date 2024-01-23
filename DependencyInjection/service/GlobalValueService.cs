@@ -6,9 +6,9 @@ namespace TestMVC.DependencyInjection.service
     public class GlobalValueService : IGlobalValueService
     {
 
-        private ProductDTO.Root _mockup;
+        private ProductDTO.Root? _mockup { get; set; }
 
-        public ProductDTO.Root GetMockupValue()
+        public ProductDTO.Root? GetMockupValue()
         {
             return _mockup;
         }

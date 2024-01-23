@@ -4,36 +4,108 @@
 <script type="text/javascript">
     $(document).ready(function () {
         console.log("detail product ready!");
+
+        setCurrentImageValue(null);
+
+        $('#carousel-control-prev, #carousel-control-next').click(function () {
+
+            let getCarouselItem = document.getElementsByClassName('carousel-item');
+            let getImgBelowSmall = document.getElementsByClassName('img-below-small');
+
+            for (let i = 0; i < getCarouselItem.length; i++) {
+                if (getCarouselItem[i].classList.contains('active')) {
+                    getImgBelowSmall[i].style.opacity = 1;
+                    getImgBelowSmall[i].scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center',
+                        inline: 'center'
+                    });
+                }
+                else {
+                    getImgBelowSmall[i].style.opacity = 0.2;
+                }
+            }
+        });
+
     });
 
 
-    function setCurrentImageValue(item) {
-        fetch(`/Product/setCurrentImageValue`, {
+    function setCurrentImageValue(index) {
+        console.log('index', index);
+        let getCarouselItem = document.getElementsByClassName('carousel-item');
+        let getImgBelowSmall = document.getElementsByClassName('img-below-small');
+
+
+        for (let i = 0; i < getCarouselItem.length; i++) {
+            getCarouselItem[i].classList.remove('active');
+            if ((i === 0 && index === null) || i === index) {
+                getCarouselItem[i].classList.add('active');
+            }
+    @* if (getCarouselItem[i].getElementsByTagName('img')[0].currentSrc === item) {
+                getCarouselItem[i].classList.add('active');
+                } *@
+            }
+
+
+
+
+        // set opcacity 1 for first item and 0.2 for other item
+        for (let i = 0; i < getImgBelowSmall.length; i++) {
+
+            if ((i === 0 && index === null) || i === index) {
+                getImgBelowSmall[i].style.opacity = 1;
+
+                getImgBelowSmall[i].scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                    inline: 'center'
+                });
+            }
+            else {
+                getImgBelowSmall[i].style.opacity = 0.2;
+            }
+    @* if (getImgBelowSmall[i].currentSrc === item) {
+                getImgBelowSmall[i].style.opacity = 1;
+
+                getImgBelowSmall[i].scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+                inline: 'center'
+                });
+                }
+                else {
+                getImgBelowSmall[i].style.opacity = 0.2;
+                } *@
+
+
+        }
+
+
+    @* fetch(`/Product/setCurrentImageValue`, {
             method: 'POST',
             headers: {
-                'Content-type': 'application/json',
+            'Content-type': 'application/json',
             },
             body: JSON.stringify({
-                image: item,
+            image: item,
             })
-        }).then(function (response) {
+            }).then(function (response) {
             console.log('response', response);
             if (response.ok) {
-                return response.json();
+            return response.json();
             }
             return Promise.reject(response);
-        }).then(data => {
+            }).then(data => {
             console.log('Success:', data);
-        }).catch(function (error) {
+            }).catch(function (error) {
             console.warn('BLAH BLAH BLAH', error);
-        });
+            }); *@
     }
 
 </script>
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var currentImage = TempData["currentImage"];
 }
 
 <div class="row">
@@ -45,20 +117,20 @@
 
                     @foreach (var item in Model.products?.images ?? new List<string>())
                     {
-                        <div class="carousel-item @((item == currentImage ) ? "active" : "")">
+                        <div class="carousel-item">
                             <img src="@Html.Raw(item)" class="d-block w-100" alt="..."
                                 style="width: 100%;height: 250px;object-fit: scale-down;">
                         </div>
                     }
 
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching"
-                    data-bs-slide="prev">
+                <button class="carousel-control-prev" id="carousel-control-prev" type="button"
+                    data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControlsNoTouching"
-                    data-bs-slide="next">
+                <button class="carousel-control-next" id="carousel-control-next" type="button"
+                    data-bs-target="#carouselExampleControlsNoTouching" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="visually-hidden">Next</span>
                 </button>
@@ -67,17 +139,21 @@
 
         <div class="row" style="margin-top:40px;">
             <div class="d-flex overflow-auto">
+                @{
+                    int i = 0;
+                }
                 @foreach (var item in Model.products?.images ?? new List<string>())
                 {
-                    <img src="@Html.Raw(item)" class="d-block" alt="..."
+                    <img src="@Html.Raw(item)" class="d-block img-below-small" alt="..."
                         style="width: 100%;height: 60px;object-fit: scale-down;margin: 0px 10px;cursor: pointer;"
-                        onclick="currentImage = item">
+                        onclick="setCurrentImageValue(@i)">
+                    i++;
                 }
             </div>
 
         </div>
     </div>
     <div class="col-7 bg-info">
-        @currentImage
+
     </div>
 </div>
