@@ -40,3 +40,9 @@ body {
   -webkit-line-clamp: 1;
   display: -webkit-box;
 }
+
+
+.form-control:disabled, .form-control[readonly] {
+  background-color: white !important;
+  opacity: 1;
+}

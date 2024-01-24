@@ -6,5 +6,8 @@ namespace TestMVC.DependencyInjection.@interface
     {
         ProductDTO.Root? GetMockupValue();
         void SetMockupValue(ProductDTO.Root value);
+        
+        string? GetUserName();
+        void SetUserName(string value);
     }
 }

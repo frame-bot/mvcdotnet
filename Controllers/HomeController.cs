@@ -17,8 +17,8 @@ namespace TestMVC.Controllers
 
         public IActionResult Index()
         {
-            string Paths = Path.Combine(_hostingEnvironment.ContentRootPath , "Content" , "images");
-            
+            string Paths = Path.Combine(_hostingEnvironment.ContentRootPath, "Content", "images");
+
             var product = new ProduceModel
             {
                 Id = 0,
@@ -39,5 +39,21 @@ namespace TestMVC.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        // [HttpPost]
+        // public ActionResult Login(LoginDTO viewModel)
+        // {
+        //     if (!ModelState.IsValid)
+        //     {
+        //         return View();
+        //     }
+
+        //     if (viewModel.UserName == "admin" && viewModel.Password == "admin")
+        //     {
+        //         _globalValueService.SetUserName(viewModel.UserName);
+        //         return View(new ProduceModel());
+        //     }
+        //     return View();
+        // }
     }
 }

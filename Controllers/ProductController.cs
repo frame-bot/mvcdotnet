@@ -27,7 +27,7 @@ namespace TestMVC.Controllers
         {
             var JsonFile = _global.GetMockupValue();
             var findDetail = new ProductDTO.Product();
-            foreach (var item in JsonFile.products ?? new List<ProductDTO.Product>())
+            foreach (var item in JsonFile?.products ?? new List<ProductDTO.Product>())
             {
                 if (item.id == id)
                 {
