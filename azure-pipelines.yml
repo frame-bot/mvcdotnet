@@ -10,7 +10,7 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world eiei !
+- script: echo Hello, world eiei azure!
   displayName: 'Run a one-line script'
 
 - script: |
