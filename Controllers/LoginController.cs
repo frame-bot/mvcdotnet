@@ -8,9 +8,11 @@ namespace TestMVC.Controllers
     public class LoginController : Controller
     {
         private readonly ILogger<LoginController> _logger;
-        public LoginController(ILogger<LoginController> logger)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public LoginController(ILogger<LoginController> logger, IWebHostEnvironment hostingEnvironment)
         {
             _logger = logger;
+            _hostingEnvironment = hostingEnvironment;
         }
         public IActionResult Index()
         {
@@ -21,14 +23,43 @@ namespace TestMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(string UserName, string Password)
         {
-            ViewBag.error = "Login failed";
+            ViewBag.error = "Login failed Please Verify your username and password";
 
             if (!ModelState.IsValid)
             {
                 return View("Index");
             }
 
-            if (UserName == "admin" && Password == "admin")
+            string PathMockup = Path.Combine(_hostingEnvironment.ContentRootPath, "Mockup", "User");
+            string PathJson = Path.Combine(PathMockup, "User.json");
+            var JsonPath = JsonFileReader.ReadAsync<List<UsernameDTO>>(PathJson).Result;
+
+            bool isCorrect = false;
+            
+            // loop for
+            for (int i = 0; i < JsonPath.Count; i++)
+            {
+                if (JsonPath[i].username == UserName && JsonPath[i].password == Password)
+                {
+                    isCorrect = true;
+                    break;
+                }
+            }
+
+            // loop foreach
+            // foreach (var item in JsonPath)
+            // {
+            //     if(item.username == UserName && item.password == Password)
+            //     {
+            //         isCorrect = true;
+            //         break;
+            //     }
+            // }
+
+            //// linq
+            // isCorrect = JsonPath.Any(x => x.username == UserName && x.password == Password);
+
+            if (isCorrect)
             {
                 return RedirectToAction("Index", "Home");
             }
