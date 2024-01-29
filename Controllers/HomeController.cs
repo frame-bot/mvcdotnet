@@ -9,14 +9,20 @@ namespace TestMVC.Controllers
         private readonly ILogger<HomeController> _logger;
 
         private readonly IWebHostEnvironment _hostingEnvironment;
-        public HomeController(ILogger<HomeController> logger, IWebHostEnvironment hostingEnvironment)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public HomeController(ILogger<HomeController> logger, IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _hostingEnvironment = hostingEnvironment;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public IActionResult Index()
         {
+
+            var getUserName = _httpContextAccessor.HttpContext?.Session.GetString("UserName");
+            var getUserID = _httpContextAccessor.HttpContext?.Session.GetString("UserID");
+
             string Paths = Path.Combine(_hostingEnvironment.ContentRootPath, "Content", "images");
 
             var product = new ProduceModel

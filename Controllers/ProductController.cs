@@ -10,16 +10,19 @@ namespace TestMVC.Controllers
     {
         IWebHostEnvironment _hostingEnvironment { get; set; }
         IGlobalValueService _global { get; set; }
-        public ProductController(IWebHostEnvironment hostingEnvironment, IGlobalValueService global)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public ProductController(IWebHostEnvironment hostingEnvironment, IGlobalValueService global, IHttpContextAccessor httpContextAccessor)
         {
             _hostingEnvironment = hostingEnvironment;
             _global = global;
+            _httpContextAccessor = httpContextAccessor;
         }
         public IActionResult Index()
         {
-            string PathMockup = Path.Combine(_hostingEnvironment.ContentRootPath, "Mockup", "Product");
-            string PathJson = Path.Combine(PathMockup, "Product.json");
-            var JsonPath = JsonFileReader.ReadAsync<ProductDTO.Root>(PathJson).Result;
+
+            _httpContextAccessor.HttpContext?.Session.SetString("UserName", "admin");
+            _httpContextAccessor.HttpContext?.Session.SetString("UserID", "admin");
+            var JsonPath = getProductByJson();
             _global.SetMockupValue(JsonPath);
             return View(JsonPath);
         }
@@ -42,8 +45,6 @@ namespace TestMVC.Controllers
                 currentIndex = 0,
             };
 
-            TempData["currentImage"] = model.currentImage;
-
             return View(new ProductDTO.ModelDetail()
             {
                 modelProduct = model,
@@ -51,16 +52,31 @@ namespace TestMVC.Controllers
             });
         }
 
-        [HttpPost]
-        public JsonResult setCurrentImageValue([FromBody] PostSetCurrentImageValue value)
+        public IActionResult EditProductAdmin()
         {
-            TempData["currentImage"] = value.image;
-            return Json(value);
+            var JsonPath = getProductByJson();
+            _global.SetMockupValue(JsonPath);
+            return View(JsonPath);
         }
-        public string ConvertNumberToComma(string value)
+        private ProductDTO.Root getProductByJson()
         {
-            return value.Replace(",", ".");
+
+            string PathMockup = Path.Combine(_hostingEnvironment.ContentRootPath, "Mockup", "Product");
+            string PathJson = Path.Combine(PathMockup, "Product.json");
+            var JsonPath = JsonFileReader.ReadAsync<ProductDTO.Root>(PathJson).Result;
+            return JsonPath;
         }
+
+        // [HttpPost]
+        // public JsonResult setCurrentImageValue([FromBody] PostSetCurrentImageValue value)
+        // {
+        //     TempData["currentImage"] = value.image;
+        //     return Json(value);
+        // }
+        // public string ConvertNumberToComma(string value)
+        // {
+        //     return value.Replace(",", ".");
+        // }
 
     }
     public static class JsonFileReader

@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -15,11 +14,21 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @* Add font awesome url *@
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 
     <script src="~/js/site.js" asp-append-version="true"></script>
 </head>
+@{
+    var sessionName = new Byte[20];
+    string UserName = string.Empty;
+    bool isUsername = Context.Session.TryGetValue("UserName", out sessionName);
+    if (isUsername)
+    {
+        UserName = System.Text.Encoding.UTF8.GetString(sessionName);
+    }
+}
+
 <body>
 
     <nav class="navbar navbar-light bg-light fixed-top">
@@ -37,7 +46,7 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <ul>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" asp-controller="Home"
                                 asp-action="Index">Home</a>
@@ -51,53 +60,51 @@
                         <li class="nav-item">
                             <a class="nav-link active" asp-controller="Table" asp-action="Index">Table</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" asp-controller="Setting" asp-action="Index">Setting</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
+                        @* <li class="nav-item">
+                        <a class="nav-link active" asp-controller="Setting" asp-action="Index">Setting</a>
+                        </li> *@
+                        @{
+                            if (isUsername)
+                            {
+                                <li class="nav-item" style="padding: .5rem 1rem">
+                                    <div>Setting</div>
+                                    <ul>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" asp-controller="Product"
+                                                asp-action="EditProductAdmin">Product</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" asp-controller="Charts" asp-action="Edit">Charts</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" asp-controller="Table" asp-action="Edit">Table</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link active" asp-controller="Table" asp-action="Edit">Table</a>
+                                        </li>
+                                    </ul>
                                 </li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </li>
+                            }
+                        }
+
                     </ul>
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+                    @* <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form> *@
                 </div>
             </div>
 
-            <!-- Example single danger button -->
-            @* <div class="btn-group">
-                <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Action
-                </button>
-                <ul class="dropdown-menu  dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="#">Separated link</a></li>
-                </ul>
-            </div> *@
- 
-                <a class="btn btn-primary" href="@Url.Action("Index", "Login")">เข้าสู่ระบบ</a>
-
+            @{
+                if (isUsername)
+                {
+                    <p>@UserName</p>
+                }
+                else
+                {
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Login")">เข้าสู่ระบบ</a>
+                }
+            }
         </div>
     </nav>
     <div class="container bg-light">

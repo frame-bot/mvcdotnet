@@ -9,10 +9,14 @@ namespace TestMVC.Controllers
     {
         private readonly ILogger<LoginController> _logger;
         private readonly IWebHostEnvironment _hostingEnvironment;
-        public LoginController(ILogger<LoginController> logger, IWebHostEnvironment hostingEnvironment)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public LoginController(ILogger<LoginController> logger,
+        IWebHostEnvironment hostingEnvironment,
+        IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _hostingEnvironment = hostingEnvironment;
+            _httpContextAccessor = httpContextAccessor;
         }
         public IActionResult Index()
         {
@@ -35,12 +39,14 @@ namespace TestMVC.Controllers
             var JsonPath = JsonFileReader.ReadAsync<List<UsernameDTO>>(PathJson).Result;
 
             bool isCorrect = false;
-            
+            UsernameDTO obj = new UsernameDTO();
+
             // loop for
             for (int i = 0; i < JsonPath.Count; i++)
             {
                 if (JsonPath[i].username == UserName && JsonPath[i].password == Password)
                 {
+                    obj = JsonPath[i];
                     isCorrect = true;
                     break;
                 }
@@ -61,6 +67,10 @@ namespace TestMVC.Controllers
 
             if (isCorrect)
             {
+                _httpContextAccessor.HttpContext?.Session.SetString("UserName", obj?.username ?? string.Empty);
+                _httpContextAccessor.HttpContext?.Session.SetString("UserID", obj?.id.ToString() ?? string.Empty);
+                // Session["UserName"] = obj.username;
+                // Session["UserID"] = obj.id;
                 return RedirectToAction("Index", "Home");
             }
             else

@@ -1,0 +1,112 @@
+@model TestMVC.Models.ProductDTO.Root;
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#input-search").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#table-product tbody>tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+        
+    });
+
+    
+function getview(x)
+{
+   var id = x; 
+   console.log('getview' ,id);
+   
+   // set currentIndex
+    currentIndex = id;
+   console.log('currentIndex' ,currentIndex);
+}
+    
+</script>
+@{
+    int currentIndex = 0;
+}
+
+<div class="w-100 my-3">
+    <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col">
+            <div class="input-group flex-nowrap">
+                <span class="input-group-text" id="addon-wrapping"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control" placeholder="Search-Something" aria-label="Search-Something"
+                    aria-describedby="addon-wrapping-search" id="input-search">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<table class="table table-light w-100 table-hover" id="table-product">
+    <thead style="background-color: black;color:white;position:sticky;top:57px;">
+        <tr>
+            <th style="width: 5%;background-color:inherit;">แก้ไข</th>
+            <th style="width: 10%;background-color:inherit;">หัวข้อ</th>
+            <th style="width: 15%;background-color:inherit;">รายละเอียดสินค้า</th>
+            <th style="width: 10%;background-color:inherit;">ราคา</th>
+            <th style="width: 10%;background-color:inherit;">ลดราคา (%)</th>
+            <th style="width: 10%;background-color:inherit;">thumbnail</th>
+            <th style="width: 10%;background-color:inherit;">เรทติ้ง</th>
+            <th style="width: 10%;background-color:inherit;">สินค้าคงเหลือ</th>
+            <th style="width: 10%;background-color:inherit;">ยี่ห้อ</th>
+            <th style="width: 10%;background-color:inherit;">หมวดหมู่</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 0;
+        }
+        @foreach (var element in Model.products ?? new List<TestMVC.Models.ProductDTO.Product>())
+        {
+            <tr>
+                <td id="pk-@i" class="text-primary hover" style="font-size: 28px;text-align: center;">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"
+                        onclick="getview(@i)"><i class="fas fa-edit" ></i></button>
+                </td>
+                <td>@element.title</td>
+                <td>@element.description</td>
+                <td>@element.price</td>
+                <td>@element.discountPercentage</td>
+                <td>
+                    <img src="@Html.Raw(element.thumbnail)" alt="a description of the image"
+                        style="width: 100px;height: 100px;object-fit: scale-down;">
+                </td>
+                <td>@element.rating</td>
+                <td>@element.stock</td>
+                <td>@element.brand</td>
+                <td>@element.category</td>
+            </tr>
+            i++;
+        }
+    </tbody>
+</table>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @currentIndex
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
