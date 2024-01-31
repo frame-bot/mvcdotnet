@@ -1,32 +1,137 @@
-@model TestMVC.Models.ProductDTO.Root;
+@* @model TestMVC.Models.ProductDTO.Root; *@
 
 <script type="text/javascript">
-
+    let listProduct = [];
+    let currentIndex = 0;
     $(document).ready(function () {
+
         $("#input-search").on("keyup", function () {
             var value = $(this).val().toLowerCase();
             $("#table-product tbody>tr").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
-        
+
+        loadItems();
     });
 
-    
-function getview(x)
-{
-   var id = x; 
-   console.log('getview' ,id);
-   
-   // set currentIndex
-    currentIndex = id;
-   console.log('currentIndex' ,currentIndex);
-}
-    
+    async function loadItems() {
+        const response = await fetchData('loadItems');
+        console.log('loadItems', response);
+        if (!response) {
+            return;
+        }
+        const table = document.getElementById('table-tbody-detail');
+        console.log('table', table);
+        listProduct = response.products;
+        console.log('listProduct', listProduct);
+        let body = '';
+        for (let i = 0; i < listProduct.length; i++) {
+            body += '<tr>';
+            body += '<td id="pk-' + i + '" class="text-primary hover" style="font-size: 28px;text-align: center;">';
+            body += '<button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="showModal(' + i + ')"><i class="fas fa-edit" ></i></button></td>';
+            body += '<td>' + listProduct[i].title + '</td>';
+            body += '<td>' + listProduct[i].description + '</td>';
+            body += '<td>' + listProduct[i].price + '</td>';
+            body += '<td>' + listProduct[i].discountPercentage + '</td>';
+            body += '<td><img src="' + listProduct[i].thumbnail + '" alt="a description of the image" style="width: 100px;height: 100px;object-fit: scale-down;"></td>';
+            body += '<td>' + listProduct[i].rating + '</td>';
+            body += '<td>' + listProduct[i].stock + '</td>';
+            body += '<td>' + listProduct[i].brand + '</td>';
+            body += '<td>' + listProduct[i].category + '</td>';
+            body += '</tr>';
+        }
+        table.innerHTML = body;
+    }
+
+
+    async function fetchData(route) {
+        const response = await fetch(`${route}`);
+        const data = await response.json();
+        return data;
+    }
+
+    function showModal(index) {
+        currentIndex = index;
+        console.log('getview', index);
+        console.log('listProduct', listProduct);
+        const modalBody = document.getElementById('modal-body-product');
+        let body = '';
+        body += '<form>';
+        body += '<div class="mb-3">';
+        body += '<label for="modal-text-title" class="col-form-label">Title:</label>';
+        body += '<input type="text" class="form-control" id="modal-text-title" value="' + listProduct[index].title + '">';
+        body += '</div>';
+        body += '<div class="mb-3">';
+        body += '<label for="modal-text-description" class="col-form-label">Description:</label>';
+        body += '<textarea class="form-control" id="modal-text-description" rows="4">' + listProduct[index].description + '</textarea>';
+        body += '</div>';
+        body += '<div class="mb-3 row">';
+        body += '<div class="col-6">';
+        body += '<label for="modal-text-price" class="col-form-label">Price:</label>';
+        body += '<input type="number" class="form-control" id="modal-text-price" value="' + listProduct[index].price + '">';
+        body += '</div>';
+        body += '<div class="col-6">';
+        body += '<label for="modal-text-discountPercentage" class="col-form-label">DiscountPercentage:</label>';
+        body += '<input type="number" class="form-control" id="modal-text-discountPercentage" value="' + listProduct[index].discountPercentage + '">';
+        body += '</div>';
+        body += '</div>';
+        body += '<div class="mb-3">';
+        body += '<label for="modal-text-thumbnail" class="col-form-label">Thumbnail:</label>';
+        body += '<input type="text" class="form-control" id="modal-text-thumbnail" value="' + listProduct[index].thumbnail + '">';
+        body += '</div>';
+        body += '<div class="mb-3 row">';
+        body += '<div class="col-6">';
+        body += '<label for="modal-text-rating" class="col-form-label">Rating:</label>';
+        body += '<input type="number" class="form-control" id="modal-text-rating" value="' + listProduct[index].rating + '">';
+        body += '</div>';
+        body += '<div class="col-6">';
+        body += '<label for="modal-text-stock" class="col-form-label">Stock:</label>';
+        body += '<input type="number" class="form-control" id="modal-text-stock" value="' + listProduct[index].stock + '">';
+        body += '</div>';
+        body += '</div>';
+        body += '<div class="mb-3 row">';
+        body += '<div class="col-6">';
+        body += '<label for="modal-text-brand" class="col-form-label">Brand:</label>';
+        body += '<input type="text" class="form-control" id="modal-text-brand" value="' + listProduct[index].brand + '">';
+        body += '</div>';
+        body += '<div class="col-6">';
+        body += '<label for="modal-text-category" class="col-form-label">Category:</label>';
+        body += '<input type="text" class="form-control" id="modal-text-category" value="' + listProduct[index].category + '">';
+        body += '</div>';
+        body += '</div>';
+        body += '</form>';
+        modalBody.innerHTML = body;
+        
+    }
+
+    function onSaveModal(){
+        console.log('onSaveModal', currentIndex);
+        // get value from modal
+        const title = document.getElementById('modal-text-title').value;
+        const description = document.getElementById('modal-text-description').value;
+        const price = document.getElementById('modal-text-price').value;
+        const discountPercentage = document.getElementById('modal-text-discountPercentage').value;
+        const thumbnail = document.getElementById('modal-text-thumbnail').value;
+        const rating = document.getElementById('modal-text-rating').value;
+        const stock = document.getElementById('modal-text-stock').value;
+        const brand = document.getElementById('modal-text-brand').value;
+        const category = document.getElementById('modal-text-category').value;
+        // update value to listProduct
+        listProduct[currentIndex].title = title;
+        listProduct[currentIndex].description = description;
+        listProduct[currentIndex].price = price;
+        listProduct[currentIndex].discountPercentage = discountPercentage;
+        listProduct[currentIndex].thumbnail = thumbnail;
+        listProduct[currentIndex].rating = rating;
+        listProduct[currentIndex].stock = stock;
+        listProduct[currentIndex].brand = brand;
+        listProduct[currentIndex].category = category;
+        
+        console.log('product', listProduct[currentIndex]);
+    }
+
 </script>
-@{
-    int currentIndex = 0;
-}
 
 <div class="w-100 my-3">
     <div class="row">
@@ -59,37 +164,9 @@ function getview(x)
             <th style="width: 10%;background-color:inherit;">หมวดหมู่</th>
         </tr>
     </thead>
-    <tbody>
-        @{
-            int i = 0;
-        }
-        @foreach (var element in Model.products ?? new List<TestMVC.Models.ProductDTO.Product>())
-        {
-            <tr>
-                <td id="pk-@i" class="text-primary hover" style="font-size: 28px;text-align: center;">
-                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop"
-                        onclick="getview(@i)"><i class="fas fa-edit" ></i></button>
-                </td>
-                <td>@element.title</td>
-                <td>@element.description</td>
-                <td>@element.price</td>
-                <td>@element.discountPercentage</td>
-                <td>
-                    <img src="@Html.Raw(element.thumbnail)" alt="a description of the image"
-                        style="width: 100px;height: 100px;object-fit: scale-down;">
-                </td>
-                <td>@element.rating</td>
-                <td>@element.stock</td>
-                <td>@element.brand</td>
-                <td>@element.category</td>
-            </tr>
-            i++;
-        }
+    <tbody id="table-tbody-detail">
     </tbody>
 </table>
-
-
 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -100,12 +177,11 @@ function getview(x)
                 <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                @currentIndex
+            <div class="modal-body" id="modal-body-product">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Understood</button>
+                <button type="button" class="btn btn-primary" onclick="onSaveModal()">Save</button>
             </div>
         </div>
     </div>

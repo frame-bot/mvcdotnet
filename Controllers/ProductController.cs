@@ -54,10 +54,17 @@ namespace TestMVC.Controllers
 
         public IActionResult EditProductAdmin()
         {
-            var JsonPath = getProductByJson();
-            _global.SetMockupValue(JsonPath);
-            return View(JsonPath);
+            return View();
         }
+
+
+        [HttpGet]
+        public JsonResult loadItems()
+        {
+            var getJson = getProductByJson();
+            return Json(getJson);
+        }
+
         private ProductDTO.Root getProductByJson()
         {
 
