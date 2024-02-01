@@ -12,11 +12,16 @@
             });
         });
 
-        loadItems();
+        loadItems('');
     });
 
-    async function loadItems() {
-        const response = await fetchData('loadItems');
+    async function loadItems(isCloseModal) {
+        
+        if(isCloseModal === 'closeModal'){
+            $('#staticBackdrop').modal('hide');
+        }
+
+        const response = await fetchGetData('loadItems');
         console.log('loadItems', response);
         if (!response) {
             return;
@@ -45,67 +50,125 @@
     }
 
 
-    async function fetchData(route) {
+    async function fetchGetData(route) {
         const response = await fetch(`${route}`);
+        const data = await response.json();
+        return data;
+    }
+
+    async function fetchPostData(route, body) {
+        const response = await fetch(`${route}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', 
+                'charset': 'utf-8'
+            },
+            body: JSON.stringify(body)
+        });
+        const data = await response.json();
+        return data;
+    }
+
+    async function fetchPutData(route, body) {
+        const response = await fetch(`${route}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json', 
+                'charset': 'utf-8'
+            },
+            body: JSON.stringify(body)
+        });
+        const data = await response.json();
+        return data;
+    }
+
+    async function fetchDeleteData(route) {
+        const response = await fetch(`${route}`, {
+            method: 'DELETE'
+        });
         const data = await response.json();
         return data;
     }
 
     function showModal(index) {
         currentIndex = index;
-        console.log('getview', index);
-        console.log('listProduct', listProduct);
+        @* console.log('getview', index);
+        console.log('listProduct', listProduct); *@
         const modalBody = document.getElementById('modal-body-product');
         let body = '';
         body += '<form>';
         body += '<div class="mb-3">';
         body += '<label for="modal-text-title" class="col-form-label">Title:</label>';
-        body += '<input type="text" class="form-control" id="modal-text-title" value="' + listProduct[index].title + '">';
+        body += '<input type="text" class="form-control" id="modal-text-title" value="' + getValueFormIndex(index,'title') + '">';
         body += '</div>';
         body += '<div class="mb-3">';
         body += '<label for="modal-text-description" class="col-form-label">Description:</label>';
-        body += '<textarea class="form-control" id="modal-text-description" rows="4">' + listProduct[index].description + '</textarea>';
+        body += '<textarea class="form-control" id="modal-text-description" rows="4">' + getValueFormIndex(index,'description') + '</textarea>';
         body += '</div>';
         body += '<div class="mb-3 row">';
         body += '<div class="col-6">';
         body += '<label for="modal-text-price" class="col-form-label">Price:</label>';
-        body += '<input type="number" class="form-control" id="modal-text-price" value="' + listProduct[index].price + '">';
+        body += '<input type="number" class="form-control" id="modal-text-price" value="' + getValueFormIndex(index,'price') + '">';
         body += '</div>';
         body += '<div class="col-6">';
         body += '<label for="modal-text-discountPercentage" class="col-form-label">DiscountPercentage:</label>';
-        body += '<input type="number" class="form-control" id="modal-text-discountPercentage" value="' + listProduct[index].discountPercentage + '">';
+        body += '<input type="number" class="form-control" id="modal-text-discountPercentage" value="' + getValueFormIndex(index,'discountPercentage') + '">';
         body += '</div>';
         body += '</div>';
         body += '<div class="mb-3">';
         body += '<label for="modal-text-thumbnail" class="col-form-label">Thumbnail:</label>';
-        body += '<input type="text" class="form-control" id="modal-text-thumbnail" value="' + listProduct[index].thumbnail + '">';
+        body += '<input type="text" class="form-control" id="modal-text-thumbnail" value="' + getValueFormIndex(index,'thumbnail') + '">';
         body += '</div>';
         body += '<div class="mb-3 row">';
         body += '<div class="col-6">';
         body += '<label for="modal-text-rating" class="col-form-label">Rating:</label>';
-        body += '<input type="number" class="form-control" id="modal-text-rating" value="' + listProduct[index].rating + '">';
+        body += '<input type="number" class="form-control" id="modal-text-rating" value="' + getValueFormIndex(index,'rating') + '">';
         body += '</div>';
         body += '<div class="col-6">';
         body += '<label for="modal-text-stock" class="col-form-label">Stock:</label>';
-        body += '<input type="number" class="form-control" id="modal-text-stock" value="' + listProduct[index].stock + '">';
+        body += '<input type="number" class="form-control" id="modal-text-stock" value="' + getValueFormIndex(index,'stock') + '">';
         body += '</div>';
         body += '</div>';
         body += '<div class="mb-3 row">';
         body += '<div class="col-6">';
         body += '<label for="modal-text-brand" class="col-form-label">Brand:</label>';
-        body += '<input type="text" class="form-control" id="modal-text-brand" value="' + listProduct[index].brand + '">';
+        body += '<input type="text" class="form-control" id="modal-text-brand" value="' + getValueFormIndex(index,'brand') + '">';
         body += '</div>';
         body += '<div class="col-6">';
         body += '<label for="modal-text-category" class="col-form-label">Category:</label>';
-        body += '<input type="text" class="form-control" id="modal-text-category" value="' + listProduct[index].category + '">';
+        body += '<input type="text" class="form-control" id="modal-text-category" value="' + getValueFormIndex(index,'category') + '">';
         body += '</div>';
         body += '</div>';
+        // add images same thumbnail
+        @* body += '<div class="mb-3">';
+        body += '<label for="modal-text-images" class="col-form-label">Images:</label>';
+        body += '<input type="text" class="form-control" id="modal-text-images" value="' + getValueFormIndex(index,'images') + '">';
+        body += '</div>'; *@
+
+        body += '</div>';
+
+        
         body += '</form>';
         modalBody.innerHTML = body;
-        
-    }
 
-    function onSaveModal(){
+
+
+        const modalFooter = document.getElementById('modal-footer-product');
+        let footer = '';
+        footer += '<div>';
+        if(currentIndex >= 0){
+            footer += '<button type="button" class="btn btn-danger float-left" onclick="onConfrimDeleteButton()">Delete</button>';
+        }
+        footer += '</div>';
+        footer += '<div>';
+        footer += '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="margin-right:16px;">Close</button>';
+        footer += '<button type="button" class="btn btn-primary" onclick="onConfrimSaveButton()">Save</button>';
+        footer += '</div>';
+        modalFooter.innerHTML = footer;
+    }
+    
+
+    function getValueModal() {
         console.log('onSaveModal', currentIndex);
         // get value from modal
         const title = document.getElementById('modal-text-title').value;
@@ -117,18 +180,154 @@
         const stock = document.getElementById('modal-text-stock').value;
         const brand = document.getElementById('modal-text-brand').value;
         const category = document.getElementById('modal-text-category').value;
-        // update value to listProduct
-        listProduct[currentIndex].title = title;
-        listProduct[currentIndex].description = description;
-        listProduct[currentIndex].price = price;
-        listProduct[currentIndex].discountPercentage = discountPercentage;
-        listProduct[currentIndex].thumbnail = thumbnail;
-        listProduct[currentIndex].rating = rating;
-        listProduct[currentIndex].stock = stock;
-        listProduct[currentIndex].brand = brand;
-        listProduct[currentIndex].category = category;
-        
-        console.log('product', listProduct[currentIndex]);
+
+        const obj = {
+            id: currentIndex >= 0 ? listProduct[currentIndex].id : 0,
+            title: `${title}`,
+            description: `${description}`,
+            price: `${price}`,
+            discountPercentage: `${discountPercentage}`,
+            thumbnail: `${thumbnail}`,
+            rating: `${rating}`,
+            stock: `${stock}`,
+            brand: `${brand}`,
+            category: `${category}`,
+            images: []
+            };
+
+        obj.price = isEmptyReturnZeroNumber(obj.price); 
+        obj.discountPercentage = isEmptyReturnZeroNumber(obj.discountPercentage);
+        obj.rating = isEmptyReturnZeroNumber(obj.rating);
+        obj.stock = isEmptyReturnZeroNumber(obj.stock);
+
+
+        if(currentIndex < 0){
+           onCreateModal(obj);
+           return ;
+        }
+
+        onSaveModal(obj);
+    }   
+
+
+    async function onCreateModal(obj){
+         // fetch post data
+         
+            const response = await fetchPostData('addItem', obj);
+            console.log('response', response);
+            if (!response) {
+                return;
+            }
+
+            Swal.fire({
+                title: "Add Items!",
+                text: "Your add Success.",
+                icon: "success"
+            });
+
+            // reload table
+            loadItems('closeModal');
+    }
+
+
+    async function onSaveModal(obj) { 
+        // fetch put data
+        const response = await fetchPutData('updateItem', obj);
+        console.log('response', response);
+        if (!response) {
+            return;
+        }
+
+        Swal.fire({
+            title: "Update Items!",
+            text: "Your updpdate Success.",
+            icon: "success"
+        });
+
+        // reload table
+        loadItems('closeModal');
+    }
+
+    async function onDeleteModal() {
+        console.log('onDeleteModal', currentIndex);
+        // fetch delete data
+        const response = fetchDeleteData('deleteItem/' + listProduct[currentIndex].id);
+         if (!response) {
+            return;
+        }
+
+        Swal.fire({
+            title: "Delete Items!",
+            text: "Your delete Success.",
+            icon: "success"
+        });
+
+        // reload table
+        loadItems('closeModal');
+    }
+
+    function onConfrimSaveButton() {
+        const title = document.getElementById('modal-text-title').value;
+        const replaceTitle = replaceSpace(title);
+        if(replaceTitle === ''){
+            Swal.fire({
+                title: "Error!",
+                text: "Please enter title.",
+                icon: "error"
+            });
+            return;
+        }
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: `You want to ${currentIndex > 0 ? 'update' : 'create' } ${title}!`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: `Yes ${currentIndex > 0 ? 'Update' : 'Create'}!`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                getValueModal();
+            }
+        });
+    }
+
+    function onConfrimDeleteButton() {
+        const title = document.getElementById('modal-text-title').value;
+        Swal.fire({
+            title: "Are you sure?",
+            text: `You want to delete ${title}!`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes Delete!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                onDeleteModal();
+            }
+        });
+    }
+
+    function getValueFormIndex(index , field){
+        if(index < 0 || index >= listProduct.length){
+            return '';
+        }
+        console.log('getValueFormIndex', index, field);
+        return listProduct[index][field];
+    }
+
+    function replaceSpace(value){
+        return String(value).split(' ').join('');
+    }
+
+    function isEmptyReturnZeroNumber(value){
+        const result = replaceSpace(value);
+        if(result === ''){
+            return 0;
+        }
+        return value;
     }
 
 </script>
@@ -136,9 +335,12 @@
 <div class="w-100 my-3">
     <div class="row">
         <div class="col">
-
+            <h1>Product</h1>
         </div>
         <div class="col">
+            <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop" onclick="showModal(-1)">Add Product</button>
+
             <div class="input-group flex-nowrap">
                 <span class="input-group-text" id="addon-wrapping"><i class="fas fa-search"></i></span>
                 <input type="text" class="form-control" placeholder="Search-Something" aria-label="Search-Something"
@@ -179,9 +381,7 @@
             </div>
             <div class="modal-body" id="modal-body-product">
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="onSaveModal()">Save</button>
+            <div class="modal-footer" id='modal-footer-product' style="justify-content:space-between;">
             </div>
         </div>
     </div>

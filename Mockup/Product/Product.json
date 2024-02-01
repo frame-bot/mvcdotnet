@@ -2,10 +2,10 @@
   "products": [
     {
       "id": 1,
-      "title": "iPhone 9",
-      "description": "An apple mobile which is nothing like apple",
+      "title": "iPhone 99",
+      "description": "An apple mobile which is nothing like applefds",
       "price": 549,
-      "discountPercentage": 12.96,
+      "discountPercentage": 13.96,
       "rating": 4.69,
       "stock": 94,
       "brand": "Apple",
@@ -40,7 +40,7 @@
     {
       "id": 3,
       "title": "Samsung Universe 9",
-      "description": "Samsung's new variant which goes beyond Galaxy to the Universe",
+      "description": "Samsung\u0027s new variant which goes beyond Galaxy to the Universe",
       "price": 1249,
       "discountPercentage": 15.46,
       "rating": 4.09,
@@ -74,7 +74,7 @@
     {
       "id": 5,
       "title": "Huawei P30",
-      "description": "Huawei’s re-badged P30 Pro New Edition was officially unveiled yesterday in Germany and now the device has made its way to the UK.",
+      "description": "Huawei\u2019s re-badged P30 Pro New Edition was officially unveiled yesterday in Germany and now the device has made its way to the UK.",
       "price": 499,
       "discountPercentage": 10.58,
       "rating": 4.09,
@@ -146,7 +146,7 @@
     {
       "id": 9,
       "title": "Infinix INBOOK",
-      "description": "Infinix Inbook X1 Ci3 10th 8GB 256GB 14 Win10 Grey – 1 Year Warranty",
+      "description": "Infinix Inbook X1 Ci3 10th 8GB 256GB 14 Win10 Grey \u2013 1 Year Warranty",
       "price": 1099,
       "discountPercentage": 11.83,
       "rating": 4.54,
@@ -201,7 +201,7 @@
     {
       "id": 12,
       "title": "Brown Perfume",
-      "description": "Royal_Mirage Sport Brown Perfume for Men & Women - 120ml",
+      "description": "Royal_Mirage Sport Brown Perfume for Men \u0026 Women - 120ml",
       "price": 40,
       "discountPercentage": 15.66,
       "rating": 4,
@@ -239,7 +239,7 @@
     {
       "id": 14,
       "title": "Non-Alcoholic Concentrated Perfume Oil",
-      "description": "Original Al Munakh® by Mahal Al Musk | Our Impression of Climate | 6ml Non-Alcoholic Concentrated Perfume Oil",
+      "description": "Original Al Munakh\u00AE by Mahal Al Musk | Our Impression of Climate | 6ml Non-Alcoholic Concentrated Perfume Oil",
       "price": 120,
       "discountPercentage": 15.6,
       "rating": 4.21,
@@ -276,12 +276,12 @@
     {
       "id": 16,
       "title": "Hyaluronic Acid Serum",
-      "description": "L'OrÃ©al Paris introduces Hyaluron Expert Replumping Serum formulated with 1.5% Hyaluronic Acid",
+      "description": "L\u0027Or\u00C3\u00A9al Paris introduces Hyaluron Expert Replumping Serum formulated with 1.5% Hyaluronic Acid",
       "price": 19,
       "discountPercentage": 13.31,
       "rating": 4.83,
       "stock": 110,
-      "brand": "L'Oreal Paris",
+      "brand": "L\u0027Oreal Paris",
       "category": "skincare",
       "thumbnail": "https://cdn.dummyjson.com/product-images/16/thumbnail.jpg",
       "images": [
@@ -313,7 +313,7 @@
     {
       "id": 18,
       "title": "Oil Free Moisturizer 100ml",
-      "description": "Dermive Oil Free Moisturizer with SPF 20 is specifically formulated with ceramides, hyaluronic acid & sunscreen.",
+      "description": "Dermive Oil Free Moisturizer with SPF 20 is specifically formulated with ceramides, hyaluronic acid \u0026 sunscreen.",
       "price": 40,
       "discountPercentage": 13.1,
       "rating": 4.56,
@@ -350,12 +350,12 @@
     {
       "id": 20,
       "title": "Freckle Treatment Cream- 15gm",
-      "description": "Fair & Clear is Pakistan's only pure Freckle cream which helpsfade Freckles, Darkspots and pigments. Mercury level is 0%, so there are no side effects.",
+      "description": "Fair \u0026 Clear is Pakistan\u0027s only pure Freckle cream which helpsfade Freckles, Darkspots and pigments. Mercury level is 0%, so there are no side effects.",
       "price": 70,
       "discountPercentage": 16.99,
       "rating": 4.06,
       "stock": 140,
-      "brand": "Fair & Clear",
+      "brand": "Fair \u0026 Clear",
       "category": "skincare",
       "thumbnail": "https://cdn.dummyjson.com/product-images/20/thumbnail.jpg",
       "images": [
@@ -374,7 +374,7 @@
       "discountPercentage": 4.81,
       "rating": 4.44,
       "stock": 133,
-      "brand": "Saaf & Khaas",
+      "brand": "Saaf \u0026 Khaas",
       "category": "groceries",
       "thumbnail": "https://cdn.dummyjson.com/product-images/21/thumbnail.png",
       "images": [
@@ -441,7 +441,7 @@
     {
       "id": 25,
       "title": "Gulab Powder 50 Gram",
-      "description": "Dry Rose Flower Powder Gulab Powder 50 Gram • Treats Wounds",
+      "description": "Dry Rose Flower Powder Gulab Powder 50 Gram \u2022 Treats Wounds",
       "price": 70,
       "discountPercentage": 13.58,
       "rating": 4.87,
@@ -537,7 +537,7 @@
     {
       "id": 30,
       "title": "Key Holder",
-      "description": "Attractive DesignMetallic materialFour key hooksReliable & DurablePremium Quality",
+      "description": "Attractive DesignMetallic materialFour key hooksReliable \u0026 DurablePremium Quality",
       "price": 30,
       "discountPercentage": 2.92,
       "rating": 4.92,
@@ -551,6 +551,19 @@
         "https://cdn.dummyjson.com/product-images/30/3.jpg",
         "https://cdn.dummyjson.com/product-images/30/thumbnail.jpg"
       ]
+    },
+    {
+      "id": 31,
+      "title": "fon",
+      "description": "",
+      "price": 0,
+      "discountPercentage": 0,
+      "rating": 0,
+      "stock": 0,
+      "brand": "",
+      "category": "",
+      "thumbnail": "https://static-cse.canva.com/blob/1100862/youtube.jpg",
+      "images": []
     }
   ],
   "total": 100,
