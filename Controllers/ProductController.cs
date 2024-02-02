@@ -19,9 +19,6 @@ namespace TestMVC.Controllers
         }
         public IActionResult Index()
         {
-
-            _httpContextAccessor.HttpContext?.Session.SetString("UserName", "admin");
-            _httpContextAccessor.HttpContext?.Session.SetString("UserID", "admin");
             var JsonProductValue = getProductByJson();
             _global.SetMockupValue(JsonProductValue);
             return View(JsonProductValue);
@@ -56,7 +53,6 @@ namespace TestMVC.Controllers
         {
             return View();
         }
-
 
         [HttpGet]
         public JsonResult loadItems()

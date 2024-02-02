@@ -555,15 +555,21 @@
     {
       "id": 31,
       "title": "fon",
-      "description": "",
+      "description": "fon naja",
       "price": 0,
       "discountPercentage": 0,
       "rating": 0,
       "stock": 0,
       "brand": "",
       "category": "",
-      "thumbnail": "https://static-cse.canva.com/blob/1100862/youtube.jpg",
-      "images": []
+      "thumbnail": "https://cdn.dummyjson.com/product-images/39/thumbnail.jpg",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/95/thumbnail.jpg",
+        "https://cdn.dummyjson.com/product-images/18/thumbnail.jpg",
+        "https://cdn.dummyjson.com/product-images/88/thumbnail.jpg",
+        "https://cdn.dummyjson.com/product-images/88/thumbnail.jpg",
+        "https://cdn.dummyjson.com/product-images/96/thumbnail.jpg"
+      ]
     }
   ],
   "total": 100,

@@ -41,12 +41,7 @@
             if ((i === 0 && index === null) || i === index) {
                 getCarouselItem[i].classList.add('active');
             }
-    @* if (getCarouselItem[i].getElementsByTagName('img')[0].currentSrc === item) {
-                getCarouselItem[i].classList.add('active');
-                } *@
-            }
-
-
+        }
 
 
         // set opcacity 1 for first item and 0.2 for other item
@@ -64,43 +59,7 @@
             else {
                 getImgBelowSmall[i].style.opacity = 0.2;
             }
-    @* if (getImgBelowSmall[i].currentSrc === item) {
-                getImgBelowSmall[i].style.opacity = 1;
-
-                getImgBelowSmall[i].scrollIntoView({
-                behavior: 'smooth',
-                block: 'center',
-                inline: 'center'
-                });
-                }
-                else {
-                getImgBelowSmall[i].style.opacity = 0.2;
-                } *@
-
-
         }
-
-
-    @* fetch(`/Product/setCurrentImageValue`, {
-            method: 'POST',
-            headers: {
-            'Content-type': 'application/json',
-            },
-            body: JSON.stringify({
-            image: item,
-            })
-            }).then(function (response) {
-            console.log('response', response);
-            if (response.ok) {
-            return response.json();
-            }
-            return Promise.reject(response);
-            }).then(data => {
-            console.log('Success:', data);
-            }).catch(function (error) {
-            console.warn('BLAH BLAH BLAH', error);
-            }); *@
-    }
 
 </script>
 @{

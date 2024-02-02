@@ -24,15 +24,9 @@ namespace TestMVC.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Login(string UserName, string Password)
         {
             ViewBag.error = "Login failed Please Verify your username and password";
-
-            if (!ModelState.IsValid)
-            {
-                return View("Index");
-            }
 
             string PathMockup = Path.Combine(_hostingEnvironment.ContentRootPath, "Mockup", "User");
             string PathJson = Path.Combine(PathMockup, "User.json");
@@ -69,8 +63,6 @@ namespace TestMVC.Controllers
             {
                 _httpContextAccessor.HttpContext?.Session.SetString("UserName", obj?.username ?? string.Empty);
                 _httpContextAccessor.HttpContext?.Session.SetString("UserID", obj?.id.ToString() ?? string.Empty);
-                // Session["UserName"] = obj.username;
-                // Session["UserID"] = obj.id;
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -80,84 +72,12 @@ namespace TestMVC.Controllers
 
         }
 
-        //  public ActionResult Index()
-        // {
-        //     if (Session["idUser"] != null)
-        //     {
-        //         return View();
-        //     }
-        //     else
-        //     {
-        //         return RedirectToAction("Login");
-        //     }
-        // }
-
-        //GET: Register
-
-        // public ActionResult Register()
-        // {
-        //     return View();
-        // }
-
-        // POST: Register
-        // [HttpPost]
-        // [ValidateAntiForgeryToken]
-        // public ActionResult Register(User _user)
-        // {
-        //     if (ModelState.IsValid)
-        //     {
-        //         var check = _db.Users.FirstOrDefault(s => s.Email == _user.Email);
-        //         if (check == null)
-        //         {
-        //             _user.Password = GetMD5(_user.Password);
-        //             _db.Configuration.ValidateOnSaveEnabled = false;
-        //             _db.Users.Add(_user);
-        //             _db.SaveChanges();
-        //             return RedirectToAction("Index");
-        //         }
-        //         else
-        //         {
-        //             ViewBag.error = "Email already exists";
-        //             return View();
-        //         }
-
-
-        //     }
-        //     return View();
-
-
-        // }
-
-        // public ActionResult Login()
-        // {
-        //     return View();
-        // }
-
-
-        // //Logout
-        // public ActionResult Logout()
-        // {
-        //     Session.Clear();//remove session
-        //     return RedirectToAction("Login");
-        // }
-
-
-
-        //create a string MD5
-        // public static string GetMD5(string str)
-        // {
-        //     MD5 md5 = new MD5CryptoServiceProvider();
-        //     byte[] fromData = Encoding.UTF8.GetBytes(str);
-        //     byte[] targetData = md5.ComputeHash(fromData);
-        //     string byte2String = null;
-
-        //     for (int i = 0; i < targetData.Length; i++)
-        //     {
-        //         byte2String += targetData[i].ToString("x2");
-
-        //     }
-        //     return byte2String;
-        // }
+        //Logout
+        public ActionResult Logout()
+        {
+            _httpContextAccessor.HttpContext?.Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
 
     }
 }
